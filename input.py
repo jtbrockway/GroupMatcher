@@ -50,6 +50,8 @@ def read_csv(filename):
             get_lang(linesplit, finlist) #Get the languages
             get_times(linesplit, finlist)
             student_arr.append(finlist)
+    
+    return student_arr
 
 read_csv('response.csv')
 
