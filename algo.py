@@ -5,27 +5,30 @@ student_arr = []
 pos_groups = []
 groupnums = []
 groupsize = 3
-stunum = 6
+stunum = 9
 priorities = ['t', 'i', 'l']
+student_arr = read_csv('response.csv')
 
 def time(posgroup):
-	newposgroups = []
+    newposgroups = []
+    posgroup = posgroup[0]
     for group in posgroup:
-    	greedy = group[0]
-    	daymatch = []
-    	for i in range(5):
-    		for time in student_arr[greedy][5+i]:
-    			if student_arr[posgroup[1]][5+i].contains(time):
-    				if student_arr[posgroup[2]][5+i].contains(time):
-    					daymatch.append(i)
-    	flagger = False
-    	if len(daymatch) > 1
-    		for day in daymatch:
-    			for otherday in daymatch:
-    				if abs(otherday-day) > 1:
-    					flagger = True
-    	if (flagger):
-    		newposgroups.append(group)
+        greedy = group[0]
+        daymatch = []
+        for i in range(5):
+            for time in student_arr[greedy][4+i]:
+                if time in student_arr[group[1]][4+i]:
+                    if time in student_arr[group[2]][4+i]:
+                        daymatch.append(i)
+        flagger = False
+        if len(daymatch) > 1:
+            for day in daymatch:
+                for otherday in daymatch:
+                    if abs(otherday-day) > 1:
+                        flagger = True
+        if (flagger):
+            newposgroups.append(group)
+    print(newposgroups)
     #done making newposgroups
     
 def intention(group):
@@ -35,7 +38,6 @@ def language(group):
     print('language')
 
 def driver():
-    student_arr = read_csv('response.csv')
     templist = []
     for i in range(stunum):
         templist.append(i)
