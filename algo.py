@@ -10,8 +10,8 @@ priorities = ['t', 'i', 'l']
 student_arr = read_csv('response.csv')
 
 def time(posgroup):
-	counter = 0 
-	newposgroups = []
+    counter = 0 
+    newposgroups = []
     posgroup = posgroup[0]
     for group in posgroup:
         greedy = group[0]
@@ -28,32 +28,32 @@ def time(posgroup):
                     if abs(otherday-day) > 1:
                         flagger = True
         if (flagger):
-        	counter += 1
+            counter += 1
             newposgroups.append(group)
     print ('time', counter)
     pos_groups = newposgroups
     
 def intention(groups):
-	newposgroups = []
-	counter = 0
-	for group in groups[0]:
-		if (abs(student_arr[group[0]][2] - student_arr[group[1]][2]) < 2 and abs(student_arr[group[0]][2] - student_arr[group[2]][2]) < 2 and abs(student_arr[group[1]][2] - student_arr[group[2]][2]) < 2):
-			counter = counter + 1
-			newposgroups.append(group)
-	pos_groups = newposgroups
-	print('intention counter ', counter)
-		
+    newposgroups = []
+    counter = 0
+    for group in groups[0]:
+        if (abs(student_arr[group[0]][2] - student_arr[group[1]][2]) < 2 and abs(student_arr[group[0]][2] - student_arr[group[2]][2]) < 2 and abs(student_arr[group[1]][2] - student_arr[group[2]][2]) < 2):
+            counter = counter + 1
+            newposgroups.append(group)
+    pos_groups = newposgroups
+    print('intention counter ', counter)
+        
 def language(groups):
-	counter = 0 
-	newposgroups = []
-	for group in groups[0]:
-		for lang in student_arr[group[0]][3]:
-			if lang in student_arr[group[1]][3]:
-				if lang in student_arr[group[2]][3]:
-					newposgroups.append(group)
-					counter += 1
-					continue
-	pos_groups = newposgroups
+    counter = 0 
+    newposgroups = []
+    for group in groups[0]:
+        for lang in student_arr[group[0]][3]:
+            if lang in student_arr[group[1]][3]:
+                if lang in student_arr[group[2]][3]:
+                    newposgroups.append(group)
+                    counter += 1
+                    continue
+    pos_groups = newposgroups
 
 def driver():
     templist = []
