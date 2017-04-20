@@ -28,14 +28,27 @@ def time(posgroup):
                         flagger = True
         if (flagger):
             newposgroups.append(group)
-    print(newposgroups)
-    #done making newposgroups
+    pos_groups = newposgroups
     
-def intention(group):
-    print('intention')
-
-def language(group):
-    print('language')
+def intention(groups):
+	newposgroups = []
+	counter = 0
+	for group in groups[0]:
+		if (abs(student_arr[group[0]][2] - student_arr[group[1]][2]) < 2 and abs(student_arr[group[0]][2] - student_arr[group[2]][2]) < 2 and abs(student_arr[group[1]][2] - student_arr[group[2]][2]) < 2):
+			counter = counter + 1
+			newposgroups.append(group)
+	pos_groups = newposgroups
+	print('intention counter ', counter)
+		
+def language(groups):
+	newposgroups = []
+	for group in groups[0]:
+		for lang in student_arr[group[0]][3]:
+			if lang in student_arr[group[1]][3]:
+				if lang in student_arr[group[2]][3]:
+					newposgroups.append(group)
+					continue
+	pos_groups = newposgroups
 
 def driver():
     templist = []
@@ -51,6 +64,8 @@ def driver():
             intention(pos_groups)
         if charnew == 'l':
             language(pos_groups)
+        print(pos_groups)
+        print(len(pos_groups[0]))
 
     #base cases multiple group possiblities after all paramters filtered
 
