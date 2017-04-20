@@ -9,10 +9,10 @@ stunum = 9
 priorities = ['t', 'i', 'l']
 student_arr = read_csv('response.csv')
 
+
 def time(posgroup):
     counter = 0 
     newposgroups = []
-    posgroup = posgroup[0]
     for group in posgroup:
         greedy = group[0]
         daymatch = []
@@ -31,28 +31,32 @@ def time(posgroup):
             counter += 1
             newposgroups.append(group)
     print ('time', counter)
+    global pos_groups
     pos_groups = newposgroups
     
 def intention(groups):
     newposgroups = []
     counter = 0
-    for group in groups[0]:
+    for group in groups:
         if (abs(student_arr[group[0]][2] - student_arr[group[1]][2]) < 2 and abs(student_arr[group[0]][2] - student_arr[group[2]][2]) < 2 and abs(student_arr[group[1]][2] - student_arr[group[2]][2]) < 2):
             counter = counter + 1
             newposgroups.append(group)
+    global pos_groups
     pos_groups = newposgroups
     print('intention counter ', counter)
         
 def language(groups):
-    counter = 0 
+    counter = 0
+    global pos_groups
     newposgroups = []
-    for group in groups[0]:
+    for group in groups:
         for lang in student_arr[group[0]][3]:
             if lang in student_arr[group[1]][3]:
                 if lang in student_arr[group[2]][3]:
                     newposgroups.append(group)
                     counter += 1
-                    continue
+                    break
+    print('language', counter)
     pos_groups = newposgroups
 
 def driver():
@@ -60,7 +64,9 @@ def driver():
     for i in range(stunum):
         templist.append(i)
     els = [list(x) for x in combinations(templist, groupsize)]
+    global pos_groups
     pos_groups.append(els)
+    pos_groups = pos_groups[0]
     while(len(priorities) > 0):
         charnew = priorities.pop(0)
         if charnew == 't':
