@@ -9,10 +9,19 @@ stunum = 9
 priorities = ['t', 'i', 'l']
 student_arr = read_csv('response.csv')
 
+def tracker(groups):
+	retarray = []
+	for i in range(stunum):
+		retarray.append(0)
+	for group in groups:
+		for person in group:
+			retarray[person] += 1
+	return retarray
 
 def time(posgroup):
-    counter = 0 
-    newposgroups = []
+	deletedgroups = []
+	counter = 0
+	newposgroups = []
     for group in posgroup:
         greedy = group[0]
         daymatch = []
@@ -30,32 +39,42 @@ def time(posgroup):
         if (flagger):
             counter += 1
             newposgroups.append(group)
+        else:
+        	deletedgroups.append(group)
     print ('time', counter)
     global pos_groups
     pos_groups = newposgroups
     
 def intention(groups):
+	deletedgroups = []
     newposgroups = []
     counter = 0
     for group in groups:
         if (abs(student_arr[group[0]][2] - student_arr[group[1]][2]) < 2 and abs(student_arr[group[0]][2] - student_arr[group[2]][2]) < 2 and abs(student_arr[group[1]][2] - student_arr[group[2]][2]) < 2):
             counter = counter + 1
             newposgroups.append(group)
+        else:
+        	deletedgroups.append(group)
     global pos_groups
     pos_groups = newposgroups
     print('intention counter ', counter)
         
 def language(groups):
     counter = 0
+    deletedgroups = []
     global pos_groups
     newposgroups = []
     for group in groups:
+    	flagger = True
         for lang in student_arr[group[0]][3]:
             if lang in student_arr[group[1]][3]:
                 if lang in student_arr[group[2]][3]:
+                	flagger = False
                     newposgroups.append(group)
                     counter += 1
                     break
+        if(flagger):
+        	deletedgroups.append(group)
     print('language', counter)
     pos_groups = newposgroups
 
@@ -75,8 +94,8 @@ def driver():
             intention(pos_groups)
         if charnew == 'l':
             language(pos_groups)
+        print(tracker(pos_groups))
         print(pos_groups)
-        print(len(pos_groups[0]))
 
     #base cases multiple group possiblities after all paramters filtered
 
