@@ -10,18 +10,18 @@ priorities = ['t', 'i', 'l']
 student_arr = read_csv('response.csv')
 
 def tracker(groups):
-	retarray = []
-	for i in range(stunum):
-		retarray.append(0)
-	for group in groups:
-		for person in group:
-			retarray[person] += 1
-	return retarray
+        retarray = []
+        for i in range(stunum):
+                retarray.append(0)
+        for group in groups:
+                for person in group:
+                        retarray[person] += 1
+        return retarray
 
 def time(posgroup):
-	deletedgroups = []
-	counter = 0
-	newposgroups = []
+        deletedgroups = []
+        counter = 0
+        newposgroups = []
     for group in posgroup:
         greedy = group[0]
         daymatch = []
@@ -40,13 +40,13 @@ def time(posgroup):
             counter += 1
             newposgroups.append(group)
         else:
-        	deletedgroups.append(group)
+                deletedgroups.append(group)
     print ('time', counter)
     global pos_groups
     pos_groups = newposgroups
     
 def intention(groups):
-	deletedgroups = []
+        deletedgroups = []
     newposgroups = []
     counter = 0
     for group in groups:
@@ -54,7 +54,7 @@ def intention(groups):
             counter = counter + 1
             newposgroups.append(group)
         else:
-        	deletedgroups.append(group)
+                deletedgroups.append(group)
     global pos_groups
     pos_groups = newposgroups
     print('intention counter ', counter)
@@ -65,16 +65,16 @@ def language(groups):
     global pos_groups
     newposgroups = []
     for group in groups:
-    	flagger = True
+        flagger = True
         for lang in student_arr[group[0]][3]:
             if lang in student_arr[group[1]][3]:
                 if lang in student_arr[group[2]][3]:
-                	flagger = False
+                        flagger = False
                     newposgroups.append(group)
                     counter += 1
                     break
         if(flagger):
-        	deletedgroups.append(group)
+                deletedgroups.append(group)
     print('language', counter)
     pos_groups = newposgroups
 
@@ -102,3 +102,4 @@ def driver():
 
     
 driver()
+
