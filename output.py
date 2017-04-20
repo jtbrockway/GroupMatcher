@@ -10,7 +10,7 @@ def group_names(group):
     return printGroup
 
 def write_csv():
-    with open('groups.csv', 'w', newline='') as csvfile:
+    with open('Groups.csv', 'w', newline='') as csvfile:
         spamwriter = csv.writer(csvfile, delimiter = ' ',
                                 quotechar=',', quoting = csv.QUOTE_MINIMAL)
         
