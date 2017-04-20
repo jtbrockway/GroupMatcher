@@ -10,18 +10,22 @@ priorities = ['t', 'i', 'l']
 student_arr = read_csv('response.csv')
 
 def tracker(groups):
-        retarray = []
-        for i in range(stunum):
-                retarray.append(0)
-        for group in groups:
-                for person in group:
-                        retarray[person] += 1
-        return retarray
+    retarray = []
+    for i in range(stunum):
+        retarray.append(0)
+    for group in groups:
+    	for person in group:
+        	retarray[person] += 1
+    retlist = []
+    for i in range (len(retarray)):
+    	if retarray[i] == 0:
+    		retlist.append(i)
+    return retlist
 
 def time(posgroup):
-        deletedgroups = []
-        counter = 0
-        newposgroups = []
+    deletedgroups = []
+    counter = 0
+    newposgroups = []
     for group in posgroup:
         greedy = group[0]
         daymatch = []
@@ -46,7 +50,7 @@ def time(posgroup):
     pos_groups = newposgroups
     
 def intention(groups):
-        deletedgroups = []
+    deletedgroups = []
     newposgroups = []
     counter = 0
     for group in groups:
@@ -69,7 +73,7 @@ def language(groups):
         for lang in student_arr[group[0]][3]:
             if lang in student_arr[group[1]][3]:
                 if lang in student_arr[group[2]][3]:
-                        flagger = False
+                    flagger = False
                     newposgroups.append(group)
                     counter += 1
                     break
