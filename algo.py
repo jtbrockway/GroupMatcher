@@ -14,19 +14,22 @@ student_arr = read_csv('response.csv')
 def tracker(groups):
     global final_groups
     global leftovers
-    retarray = []
-    for i in range(stunum):
-        retarray.append(0)
-    for group in groups:
-        for person in group:
-            retarray[person] += 1
-    retlist = []
     flagger = True
     while(flagger):
+    	retarray = []
+    	for i in range(stunum):
+        	retarray.append(0)
+        for group in groups:
+        	for person in group:
+        		retarray[person] += 1
         flagger2 = False
         for i in range (stunum):
             if retarray[i] == 0:
-                leftovers.append(i)
+            	print('appending to leftovers: ', i)
+            	if i in leftovers:
+            		continue
+            	else:
+            		leftovers.append(i)
             if retarray[i] == 1:
                 for group in groups:
                     if i in group:
