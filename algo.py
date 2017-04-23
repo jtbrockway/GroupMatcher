@@ -6,6 +6,7 @@ pos_groups = []
 groupnums = []
 final_groups = []
 leftovers = []
+theygone = []
 groupsize = 3
 stunum = 9
 priorities = ['T', 'I', 'K']
@@ -14,30 +15,40 @@ student_arr = read_csv('response.csv')
 def tracker(groups):
     global final_groups
     global leftovers
+    global theygone
     flagger = True
     while(flagger):
+        flagger2 = True
         retarray = []
         for i in range(stunum):
             retarray.append(0)
         for group in groups:
             for person in group:
                 retarray[person] += 1
-        flagger2 = False
+                flagger2 = False
         for i in range (stunum):
             if retarray[i] == 0:
-                print('appending to leftovers: ', i)
-                if i in leftovers:
+                if (i in leftovers) or (i in theygone):
                     continue
                 else:
+                    print('appending to leftovers: ', i)
                     leftovers.append(i)
+            print('printing groups')
+            print(groups)
             if retarray[i] == 1:
                 for group in groups:
                     if i in group:
                         final_groups.append(group)
+                        for person in group:
+                        	theygone.append(person)
+                        print('added to final groups', group)
                         for other in group:
+                            print('working with item number', other)
                             for others in groups:
+                                print('others', others)
                                 if other in others:
                                     flagger2 = True
+                                    print('found one', others)
                                     groups.remove(others)
                         #groups.remove(group)
         flagger = flagger2
