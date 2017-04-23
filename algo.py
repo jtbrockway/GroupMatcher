@@ -18,7 +18,7 @@ def tracker(groups):
     global theygone
     flagger = True
     while(flagger):
-        flagger2 = True
+        flagger2 = False
         retarray = []
         for i in range(stunum):
             retarray.append(0)
@@ -33,9 +33,8 @@ def tracker(groups):
                 else:
                     print('appending to leftovers: ', i)
                     leftovers.append(i)
-            print('printing groups')
-            print(groups)
             if retarray[i] == 1:
+                deletegroups = []
                 for group in groups:
                     if i in group:
                         final_groups.append(group)
@@ -43,14 +42,14 @@ def tracker(groups):
                         	theygone.append(person)
                         print('added to final groups', group)
                         for other in group:
-                            print('working with item number', other)
                             for others in groups:
-                                print('others', others)
                                 if other in others:
                                     flagger2 = True
                                     print('found one', others)
-                                    groups.remove(others)
-                        #groups.remove(group)
+                                    if others not in deletegroups:
+                                        deletegroups.append(others)
+                for thing in deletegroups:
+                    groups.remove(thing)
         flagger = flagger2
     return groups
 
@@ -83,6 +82,7 @@ def time(posgroup):
     pos_groups = newposgroups
     
 def intention(groups):
+    print(groups)
     newposgroups = []
     counter = 0
     for group in groups:
@@ -134,11 +134,20 @@ def driver():
         if charnew == 'K':
             language(pos_groups)
         global leftovers
-        print(leftovers)
+        print('leftovers', leftovers)
         #print(pos_groups)
         #print("--------")
         #print(final_groups)
         print("----------")
+    
+    print(leftovers)    
+    while(len(leftovers) > 0):
+        nextgroup = []
+        nextgroup.append(leftovers.pop())
+        nextgroup.append(leftovers.pop())
+        nextgroup.append(leftovers.pop())
+        final_groups.append(nextgroup)
+    print(final_groups)
 
     #base cases multiple group possiblities after all paramters filtered
 
