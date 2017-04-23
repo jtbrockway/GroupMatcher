@@ -5,13 +5,15 @@ student_arr = []
 pos_groups = []
 groupnums = []
 final_groups = []
+leftovers = []
 groupsize = 3
 stunum = 9
-priorities = ['t', 'i', 'l']
+priorities = ['T', 'I', 'K']
 student_arr = read_csv('response.csv')
 
-def tracker(groups, deleted):
+def tracker(groups):
     global final_groups
+    global leftovers
     retarray = []
     for i in range(stunum):
         retarray.append(0)
@@ -19,21 +21,26 @@ def tracker(groups, deleted):
         for person in group:
             retarray[person] += 1
     retlist = []
-    for i in range (stunum):
-        if retarray[i] == 0:
-            for item in deleted[i]:
-                groups.append(item)
-        if retarray[i] == 1:
-            for group in groups:
-                if i in group:
-                    final_groups.append(group)
-                    groups.remove(group)
+    flagger = True
+    while(flagger):
+        flagger2 = False
+        for i in range (stunum):
+            if retarray[i] == 0:
+                leftovers.append(i)
+            if retarray[i] == 1:
+                for group in groups:
+                    if i in group:
+                        final_groups.append(group)
+                        for other in group:
+                            for others in groups:
+                                if other in others:
+                                    flagger2 = True
+                                    groups.remove(others)
+                        #groups.remove(group)
+        flagger = flagger2
     return groups
 
 def time(posgroup):
-    deletedgroups = []
-    for i in range(stunum):
-        deletedgroups.append([])
     counter = 0
     newposgroups = []
     for group in posgroup:
@@ -53,37 +60,31 @@ def time(posgroup):
         if (flagger):
             counter += 1
             newposgroups.append(group)
-        else:
+        '''else:
             for person in group:
-                deletedgroups[person].append(group)
+                deletedgroups[person].append(group)'''
     print ('time', counter)
-    newpostgroups = tracker(newposgroups, deletedgroups)
+    newpostgroups = tracker(newposgroups)
     global pos_groups
     pos_groups = newposgroups
     
 def intention(groups):
-    deletedgroups = []
-    for i in range(stunum):
-        deletedgroups.append([])
     newposgroups = []
     counter = 0
     for group in groups:
         if (abs(student_arr[group[0]][2] - student_arr[group[1]][2]) < 2 and abs(student_arr[group[0]][2] - student_arr[group[2]][2]) < 2 and abs(student_arr[group[1]][2] - student_arr[group[2]][2]) < 2):
             counter = counter + 1
             newposgroups.append(group)
-        else:
+        '''else:
             for person in group:
-                deletedgroups[person].append(group)
-    newposgroups = tracker(newposgroups, deletedgroups)
+                deletedgroups[person].append(group)'''
+    newposgroups = tracker(newposgroups)
     global pos_groups
     pos_groups = newposgroups
     print('intention counter ', counter)
         
 def language(groups):
     counter = 0
-    deletedgroups = []
-    for i in range(stunum):
-        deletedgroups.append([])
     global pos_groups
     newposgroups = []
     for group in groups:
@@ -95,10 +96,10 @@ def language(groups):
                     newposgroups.append(group)
                     counter += 1
                     break
-        if(flagger):
+        '''if(flagger):
             for person in group:
-                deletedgroups[person].append(group)
-    newposgroups = tracker(newposgroups, deletedgroups)
+                deletedgroups[person].append(group)'''
+    newposgroups = tracker(newposgroups)
     print('language', counter)
     pos_groups = newposgroups
 
@@ -112,15 +113,18 @@ def driver():
     pos_groups = pos_groups[0]
     while(len(priorities) > 0):
         charnew = priorities.pop(0)
-        if charnew == 't':
+        if charnew == 'T':
             time(pos_groups)
-        if charnew == 'i':
+        if charnew == 'I':
             intention(pos_groups)
-        if charnew == 'l':
+        if charnew == 'K':
             language(pos_groups)
-        print(pos_groups)
-        print("--------")
-        print(final_groups)
+        global leftovers
+        print(leftovers)
+        #print(pos_groups)
+        #print("--------")
+        #print(final_groups)
+        print("----------")
 
     #base cases multiple group possiblities after all paramters filtered
 
