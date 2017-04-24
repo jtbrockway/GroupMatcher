@@ -25,7 +25,7 @@ ttk.Label(mainframe, text="").grid(column=1, row=8, sticky=W)
 groupSize = StringVar(root)
 
 # spinbox to choose group size
-ttk.Label(mainframe, text="Enter group size:").grid(column=1, row=9, sticky=W)
+ttk.Label(mainframe, text="Enter group size").grid(column=1, row=9, sticky=W)
 ttk.Label(mainframe, text="").grid(column=1, row=10, sticky=W)
 Spinbox(mainframe, textvariable=groupSize, from_=2, to=6, increment=1, width=6).grid(column=2, row=9)
 
@@ -121,18 +121,52 @@ cb3 = IntVar(0)
 cb4 = IntVar(0)
 cb5 = IntVar(0)
 
-# add scrolling
-# checkbuttons for list of groups
-ttk.Checkbutton(mainframe, variable=cb1, text="Group 1:    ").grid(column=4, row=1, sticky=E)
-ttk.Label(mainframe, text="").grid(column=4, row=2, sticky=E)
-ttk.Checkbutton(mainframe, variable=cb2, text="Group 2:    ").grid(column=4, row=3, sticky=E)
-ttk.Label(mainframe, text="").grid(column=4, row=4, sticky=E)
-ttk.Checkbutton(mainframe, variable=cb3, text="Group 3:    ").grid(column=4, row=5, sticky=E)
-ttk.Label(mainframe, text="").grid(column=4, row=6, sticky=E)
-ttk.Checkbutton(mainframe, variable=cb4, text="Group 4:    ").grid(column=4, row=7, sticky=E)
-ttk.Label(mainframe, text="").grid(column=4, row=8, sticky=E)
-ttk.Checkbutton(mainframe, variable=cb5, text="Group 5:    ").grid(column=4, row=9, sticky=E)
-ttk.Label(mainframe, text="").grid(column=4, row=10, sticky=E)
+# make a tree view and put it in the grid
+tv = ttk.Treeview(mainframe, selectmode='extended')
+tv.grid(column=4, row=4)
+
+# set the column heading text
+tv.heading('#0', text='Groups')
+
+# add groups
+iid0 = tv.insert('', 0, text='Group 1', open=True)
+tv.insert(iid0, 0, text='Liz')
+tv.insert(iid0, 0, text='Jack')
+tv.insert(iid0, 0, text='Kristen')
+
+iid1 = tv.insert('', 1, text='Group 2', open=True)
+tv.insert(iid1, 0, text='Larry')
+tv.insert(iid1, 0, text='Elliot')
+tv.insert(iid1, 0, text='Chester')
+
+iid2 = tv.insert('', 2, text='Group 3', open=True)
+tv.insert(iid2, 0, text='Michal')
+tv.insert(iid2, 0, text='Joe')
+tv.insert(iid2, 0, text='Eric')
+
+# setup some dictionaries to track group titles and selected state
+titles = { iid0:'Group 1', iid1:'Group 2', iid2:'Group 3' }
+selected = { iid0:False, iid1:False, iid2:False }
+
+# this function is called when the user clicks on an item in the Treeview
+def onClick(event):
+	iid = tv.identify('item', event.x, event.y)
+	if not iid in selected:
+		return
+	
+	isSelected = selected[iid]
+	isSelected = not isSelected
+	selected[iid] = isSelected
+	#print("you clicked on", tv.item(iid, "text"), isSelected)
+	newTitle = ''
+	if isSelected:
+		newTitle = '✔ ' + titles[iid]
+	else:
+		newTitle = titles[iid]
+	tv.item(iid, text=newTitle)
+
+# this is how the function to get clicks is hooked up
+tv.bind("<Button-1>", onClick)
 
 def createGroups():
 
