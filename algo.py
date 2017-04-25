@@ -9,7 +9,7 @@ leftovers = []
 theygone = []
 groupsize = 3
 stunum = 9
-priorities = ["T", "I", "K"]
+priorities = []
 filename = ""
 student_arr = []
 
@@ -31,6 +31,7 @@ def setReadFile(file):
 
 def createStudents():
     global student_arr
+    global filename
     student_arr = read_csv("response.csv")
 
 def tracker(groups):
@@ -77,6 +78,7 @@ def tracker(groups):
 def time(posgroup):
     counter = 0
     newposgroups = []
+    print(posgroup)
     for group in posgroup:
         greedy = group[0]
         daymatch = []
@@ -139,15 +141,14 @@ def language(groups):
     pos_groups = newposgroups
 
 def driver():
-    createStudents()
+    global pos_groups
     templist = []
     for i in range(stunum):
         templist.append(i)
     els = [list(x) for x in combinations(templist, groupsize)]
-    global pos_groups
     pos_groups.append(els)
-    pos_groups = pos_groups[0]
     print(pos_groups)
+    pos_groups = pos_groups[0]
     while(len(priorities) > 0):
         charnew = priorities.pop(0)
         if charnew == 'T':
@@ -163,7 +164,10 @@ def driver():
         #print(final_groups)
         print("----------")
     
-    print(leftovers)    
+    print(leftovers)
+    print(final_groups)
+    print("||||||||||||||||||")
+    print(pos_groups)
     while(len(leftovers) > 0):
         nextgroup = []
         nextgroup.append(leftovers.pop())
@@ -174,7 +178,4 @@ def driver():
 
     #base cases multiple group possiblities after all paramters filtered
 
-
-    
-driver()
 
