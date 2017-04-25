@@ -18,4 +18,4 @@ def write_csv():
             group = group_names(final_groups[i]) 
             spamwriter.writerow(['Group']+ [i] + [":"] + group)
 
-write_csv()
+
