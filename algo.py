@@ -9,7 +9,7 @@ leftovers = []
 theygone = []
 groupsize = 3
 stunum = 9
-priorities = ['T', 'I', 'K']
+priorities = []
 filename = ""
 student_arr = []
 
@@ -28,6 +28,10 @@ def setGroupSize(num):
 def setReadFile(file):
     global filename
     filename = file
+
+def createStudents():
+    global student_arr
+    student_arr = read_csv(filename)
 
 def tracker(groups):
     global final_groups
@@ -135,8 +139,6 @@ def language(groups):
     pos_groups = newposgroups
 
 def driver():
-    global student_arr
-    student_arr = read_csv(filename)
     templist = []
     for i in range(stunum):
         templist.append(i)
