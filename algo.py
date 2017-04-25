@@ -168,12 +168,62 @@ def driver():
     print(final_groups)
     print("||||||||||||||||||")
     print(pos_groups)
-    while(len(leftovers) > 0):
+    while(len(leftovers) > groupsize - 1):
         nextgroup = []
-        nextgroup.append(leftovers.pop())
-        nextgroup.append(leftovers.pop())
-        nextgroup.append(leftovers.pop())
+        for i in range (groupsize):
+            nextgroup.append(leftovers.pop())
         final_groups.append(nextgroup)
+    while (len(pos_groups) > 0):
+        checkar = []
+        for i in range(stunum):
+            checkar.append(0)
+        for grp in pos_groups:
+            for aperson in grp:
+                checkar[aperson] =+ 1
+        minnum = 100
+        minperson = -1
+        careabout = []
+        for i in range(stunum):
+            if checkar[i] > 0:
+                careabout.append(i)
+                if checkar[i] < minnum:
+                    minnum = checkar[i]
+                    minperson = i
+        print('minperson', minperson)
+        theygone = []
+        for group in pos_groups:
+            if minperson in group:
+                print('removing their group: ', group)
+                pos_groups.remove(group)
+                final_groups.append(group)
+                for other in group:
+                    theygone.append(other)
+                for person in group:
+                    for othergroup in pos_groups:
+                        if person in othergroup:
+                            print('clearingout the other group', othergroup)
+                            pos_groups.remove(othergroup)
+                break
+        checkar = []
+        print('theygone', theygone)
+        for i in range(stunum):
+            checkar.append(0)
+        for grp in pos_groups:
+            for aperson in grp:
+                checkar[aperson] += 1
+        print('careabout', careabout)
+        print(checkar[8])
+        for num in careabout:
+            if checkar[num] == 0:
+                if num not in theygone:
+                    leftovers.append(num)
+                    print('adding ', num, 'to leftovers')
+    while(len(leftovers) > groupsize - 1):
+        nextgroup = []
+        for i in range (groupsize):
+            nextgroup.append(leftovers.pop())
+        final_groups.append(nextgroup)
+            
     print(final_groups)
 
     #base cases multiple group possiblities after all paramters filtered
