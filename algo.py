@@ -233,5 +233,5 @@ def driver():
     print(final_groups)
 
     #base cases multiple group possiblities after all paramters filtered
-
-
+def displayFinal():
+    displayList

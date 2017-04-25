@@ -7,6 +7,8 @@ from tkinter import filedialog
 filename = ""
 root = Tk()
 root.title("Group Matcher")
+titles = {}
+selected = {}
 
 # set up framework
 mainframe = ttk.Frame(root, padding="30 30 120 120")
@@ -55,34 +57,34 @@ choices = [1,2,3]
 
 # ensure weight1 is not the same as any other weights
 def changeWeight1(val):
-	if w1.get() == w2.get():
-		w2.set(oldW1.get())
-		oldW2.set(w2.get())
-	if w1.get() == w3.get():
-		w3.set(oldW1.get())
-		oldW3.set(w3.get())
+    if w1.get() == w2.get():
+        w2.set(oldW1.get())
+        oldW2.set(w2.get())
+    if w1.get() == w3.get():
+        w3.set(oldW1.get())
+        oldW3.set(w3.get())
 
-	oldW1.set(w1.get())
+    oldW1.set(w1.get())
 
 # ensure weight2 is not the same as any other weights
 def changeWeight2(val):
-	if w2.get() == w1.get():
-		w1.set(oldW2.get())
-		oldW1.set(w1.get())
-	if w2.get() == w3.get():
-		w3.set(oldW2.get())
-		oldW3.set(w3.get())
+    if w2.get() == w1.get():
+        w1.set(oldW2.get())
+        oldW1.set(w1.get())
+    if w2.get() == w3.get():
+        w3.set(oldW2.get())
+        oldW3.set(w3.get())
 
-	oldW2.set(w2.get())
+    oldW2.set(w2.get())
 
 # ensure weight3 is not the same as any other weights
 def changeWeight3(val):
     if w3.get() == w1.get():
-    	w1.set(oldW3.get())
-    	oldW1.set(w1.get())
+        w1.set(oldW3.get())
+        oldW1.set(w1.get())
     if w3.get() == w2.get():
-    	w2.set(oldW3.get())
-    	oldW1.set(w1.get())
+        w2.set(oldW3.get())
+        oldW1.set(w1.get())
 
     oldW3.set(w3.get())
 
@@ -94,30 +96,30 @@ OptionMenu(mainframe, w3, *choices, command=changeWeight3).grid(column=2, row=7)
 # function to order weighted attributes and put them in a list
 def weightAttributes():
 
-	weightedAttributes = []
+    weightedAttributes = []
 
-	if w1.get() == 1:
-		weightedAttributes.append('I')
-	if w2.get() == 1:
-		weightedAttributes.append('K')
-	if w3.get() == 1:
-		weightedAttributes.append('T')
+    if w1.get() == 1:
+        weightedAttributes.append('I')
+    if w2.get() == 1:
+        weightedAttributes.append('K')
+    if w3.get() == 1:
+        weightedAttributes.append('T')
 
-	if w1.get() == 2:
-		weightedAttributes.append('I')
-	if w2.get() == 2:
-		weightedAttributes.append('K')
-	if w3.get() == 2:
-		weightedAttributes.append('T')
+    if w1.get() == 2:
+        weightedAttributes.append('I')
+    if w2.get() == 2:
+        weightedAttributes.append('K')
+    if w3.get() == 2:
+        weightedAttributes.append('T')
 
-	if w1.get() == 3:
-		weightedAttributes.append('I')
-	if w2.get() == 3:
-		weightedAttributes.append('K')
-	if w3.get() == 3:
-		weightedAttributes.append('T')
+    if w1.get() == 3:
+        weightedAttributes.append('I')
+    if w2.get() == 3:
+        weightedAttributes.append('K')
+    if w3.get() == 3:
+        weightedAttributes.append('T')
 
-	return weightedAttributes
+    return weightedAttributes
 
 #initialize checkbuttons to un-checked
 cb1 = IntVar(0)
@@ -132,85 +134,92 @@ tv.grid(column=4, row=4)
 
 # set the column heading text
 tv.heading('#0', text='Groups')
+groupnum = int(algo.stunum // algo.groupsize)
+buttonholder = []
+def displayList():
+        for i in range(groupnum):
+            button = tv.insert('', i, text = 'Group ' + str(i+1), open = True)
+            grouptemp = algo.final_groups[i]
+            for person in grouptemp:
+                name = algo.student_arr[person][0], algo.student_arr[person][1]
+                tv.insert(button, 0 , text = name)
+            buttonholder.append(button)
+            titles[buttonholder[i]] ='Group ' + str(i+1)
+            selected[buttonholder[i]] = False
 
-# add groups
-iid0 = tv.insert('', 0, text='Group 1', open=True)
-tv.insert(iid0, 0, text='Liz')
-tv.insert(iid0, 0, text='Jack')
-tv.insert(iid0, 0, text='Kristen')
 
-iid1 = tv.insert('', 1, text='Group 2', open=True)
-tv.insert(iid1, 0, text='Larry')
-tv.insert(iid1, 0, text='Elliot')
-tv.insert(iid1, 0, text='Chester')
-
-iid2 = tv.insert('', 2, text='Group 3', open=True)
-tv.insert(iid2, 0, text='Michal')
-tv.insert(iid2, 0, text='Joe')
-tv.insert(iid2, 0, text='Eric')
+        
 
 # setup some dictionaries to track group titles and selected state
-titles = { iid0:'Group 1', iid1:'Group 2', iid2:'Group 3' }
-selected = { iid0:False, iid1:False, iid2:False }
+
+
 
 # this function is called when the user clicks on an item in the Treeview
 def onClick(event):
-	iid = tv.identify('item', event.x, event.y)
-	if not iid in selected:
-		return
-	
-	isSelected = selected[iid]
-	isSelected = not isSelected
-	selected[iid] = isSelected
-	#print("you clicked on", tv.item(iid, "text"), isSelected)
-	newTitle = ''
-	if isSelected:
-		newTitle = '✔ ' + titles[iid]
-	else:
-		newTitle = titles[iid]
-	tv.item(iid, text=newTitle)
+    iid = tv.identify('item', event.x, event.y)
+    if not iid in selected:
+        return
+    
+    isSelected = selected[iid]
+    isSelected = not isSelected
+    selected[iid] = isSelected
+    #print("you clicked on", tv.item(iid, "text"), isSelected)
+    newTitle = ''
+    if isSelected:
+        newTitle = '✔ ' + titles[iid]
+    else:
+        newTitle = titles[iid]
+    tv.item(iid, text=newTitle)
 
 # this is how the function to get clicks is hooked up
 tv.bind("<Button-1>", onClick)
 
 def createGroups():
 
-	# get ordered list of weighted attributes
-	weightedAttributes = weightAttributes()
-	gs = int(groupSize.get())
-	
-	algo.setPrio(weightedAttributes)
-	algo.setGroupSize(gs)
-	algo.setReadFile(filename)
-	algo.createStudents()
-	algo.driver()
-	
-	print (weightedAttributes)
+    # get ordered list of weighted attributes
+    weightedAttributes = weightAttributes()
+    gs = int(groupSize.get())
+    
+    algo.setPrio(weightedAttributes)
+    algo.setGroupSize(gs)
+    algo.setReadFile(filename)
+    algo.createStudents()
+    algo.driver()
+    displayList()
+    
+    print (weightedAttributes)
 
-	# get inputted group size
-	
-	print(gs)
+    # get inputted group size
+    
+    print(gs)
 
 # create groups button
 b = ttk.Button(mainframe, text="Create Groups", command=createGroups)
 b.grid(column=1, row=11, sticky=E)
 
 def regenerateGroups():
-	# send list of leftover people to be re-shuffled and list of saved people
+    # send list of leftover people to be re-shuffled and list of saved people
 
-	# get ordered list of re-weighted attributes
-	reweightedAttributes = weightAttributes()
+    # get ordered list of re-weighted attributes
+    reweightedAttributes = weightAttributes()
 
-	# get new inputted group size
-	gs = int(groupSize.get())
-	print(gs)
+    # get new inputted group size
+    gs = int(groupSize.get())
+    for child in tv.get_children():
+            print(tv.item(child))
+    for i in range(gs):
+            if selected[buttonholder[i]] == True:
+                    print ('True')
+            else:
+                    print('False')
+    print(gs)
 
 # regenerate groups button
 b2 = ttk.Button(mainframe, text="Regenerate Groups", command=regenerateGroups)
 b2.grid(column=4, row=11, sticky=E)
 
 def exportGroups():
-	# export csv file of groups
+    # export csv file of groups
     print ("export groups!")
     algo.output()
     root.destroy()
@@ -224,7 +233,7 @@ def browseFiles():
         filename = filedialog.askopenfilename()
         pathlabel.config(text=filename)
         print(filename)
-	
+    
 
 pathlabel = Label(root)
 
