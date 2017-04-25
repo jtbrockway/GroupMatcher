@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 import spinbox
+from tkinter import filedialog
     
 root = Tk()
 root.title("Group Matcher")
@@ -12,7 +13,7 @@ mainframe.columnconfigure(0, weight=1)
 mainframe.rowconfigure(0, weight=1)
 
 # labels for weighting attributes
-ttk.Label(mainframe, text="Weight your attributes:").grid(column=1, row=1, sticky=W)
+ttk.Label(mainframe, text="Rank your attributes").grid(column=1, row=1, sticky=W)
 ttk.Label(mainframe, text="").grid(column=1, row=2, sticky=W)
 ttk.Label(mainframe, text="Intention of Project").grid(column=1, row=3, sticky=W)
 ttk.Label(mainframe, text="").grid(column=1, row=4, sticky=W)
@@ -28,6 +29,8 @@ groupSize = StringVar(root)
 ttk.Label(mainframe, text="Enter group size").grid(column=1, row=9, sticky=W)
 ttk.Label(mainframe, text="").grid(column=1, row=10, sticky=W)
 Spinbox(mainframe, textvariable=groupSize, from_=2, to=6, increment=1, width=6).grid(column=2, row=9)
+
+# text field to enter class size
 
 # set up for weight options
 w1 = IntVar(root)
@@ -203,5 +206,17 @@ def exportGroups():
 # export button
 b3 = ttk.Button(mainframe, text="Export Groups", command=exportGroups)
 b3.grid(column=2, row=13, sticky=S)
+
+def browseFiles():
+	filename = filedialog.askopenfilename()
+	pathlabel.config(text=filename)
+
+pathlabel = Label(root)
+
+# export button
+b4 = ttk.Button(mainframe, text="Browse", command=browseFiles)
+b4.grid(column=5, row=15, sticky=S)
+
+# mainframe.configure(background='blue')
 
 root.mainloop()
