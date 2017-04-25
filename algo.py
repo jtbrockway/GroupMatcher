@@ -1,5 +1,6 @@
 from inputFile import *
 from itertools import combinations
+import outputToFile
 
 student_arr = []
 pos_groups = []
@@ -33,6 +34,11 @@ def createStudents():
     global student_arr
     global filename
     student_arr = read_csv("response.csv")
+
+def output():
+    global final_groups
+    global student_arr
+    outputToFile.write_csv(final_groups, student_arr)
 
 def tracker(groups):
     global final_groups

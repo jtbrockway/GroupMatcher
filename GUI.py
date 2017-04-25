@@ -212,6 +212,8 @@ b2.grid(column=4, row=11, sticky=E)
 def exportGroups():
 	# export csv file of groups
     print ("export groups!")
+    algo.output()
+    root.destroy()
 
 # export button
 b3 = ttk.Button(mainframe, text="Export Groups", command=exportGroups)
