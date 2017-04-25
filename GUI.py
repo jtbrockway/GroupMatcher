@@ -1,8 +1,10 @@
 from tkinter import *
 from tkinter import ttk
+import algo
 import spinbox
 from tkinter import filedialog
-    
+
+filename = ""
 root = Tk()
 root.title("Group Matcher")
 
@@ -175,10 +177,18 @@ def createGroups():
 
 	# get ordered list of weighted attributes
 	weightedAttributes = weightAttributes()
+	gs = int(groupSize.get())
+	
+	algo.setPrio(weightedAttributes)
+	algo.setGroupSize(gs)
+	algo.setReadFile(filename)
+	algo.createStudents()
+	algo.driver()
+	
 	print (weightedAttributes)
 
 	# get inputted group size
-	gs = int(groupSize.get())
+	
 	print(gs)
 
 # create groups button
@@ -208,8 +218,11 @@ b3 = ttk.Button(mainframe, text="Export Groups", command=exportGroups)
 b3.grid(column=2, row=13, sticky=S)
 
 def browseFiles():
-	filename = filedialog.askopenfilename()
-	pathlabel.config(text=filename)
+        global filename
+        filename = filedialog.askopenfilename()
+        pathlabel.config(text=filename)
+        print(filename)
+	
 
 pathlabel = Label(root)
 

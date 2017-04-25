@@ -1,4 +1,4 @@
-from input import *
+from inputFile import *
 from itertools import combinations
 
 student_arr = []
@@ -9,7 +9,7 @@ leftovers = []
 theygone = []
 groupsize = 3
 stunum = 9
-priorities = []
+priorities = ["T", "I", "K"]
 filename = ""
 student_arr = []
 
@@ -31,7 +31,7 @@ def setReadFile(file):
 
 def createStudents():
     global student_arr
-    student_arr = read_csv(filename)
+    student_arr = read_csv("response.csv")
 
 def tracker(groups):
     global final_groups
@@ -139,6 +139,7 @@ def language(groups):
     pos_groups = newposgroups
 
 def driver():
+    createStudents()
     templist = []
     for i in range(stunum):
         templist.append(i)
@@ -146,6 +147,7 @@ def driver():
     global pos_groups
     pos_groups.append(els)
     pos_groups = pos_groups[0]
+    print(pos_groups)
     while(len(priorities) > 0):
         charnew = priorities.pop(0)
         if charnew == 'T':
