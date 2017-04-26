@@ -34,7 +34,12 @@ ttk.Label(mainframe, text="Enter group size").grid(column=1, row=9, sticky=W)
 ttk.Label(mainframe, text="").grid(column=1, row=10, sticky=W)
 Spinbox(mainframe, textvariable=groupSize, from_=2, to=6, increment=1, width=6).grid(column=2, row=9)
 
+# set up class size
+classSize = StringVar(root)
+
 # text field to enter class size
+ttk.Label(mainframe, text="Enter class size").grid(column=1, row=11, sticky=W)
+ttk.Entry(mainframe, text='', textvariable=classSize).grid(column=2, row=11, sticky=W)
 
 # set up for weight options
 w1 = IntVar(root)
@@ -179,6 +184,7 @@ def createGroups():
     # get ordered list of weighted attributes
     weightedAttributes = weightAttributes()
     gs = int(groupSize.get())
+    cs = int(classSize.get())
     
     algo.setPrio(weightedAttributes)
     algo.setGroupSize(gs)
@@ -192,10 +198,11 @@ def createGroups():
     # get inputted group size
     
     print(gs)
+    print(cs)
 
 # create groups button
 b = ttk.Button(mainframe, text="Create Groups", command=createGroups)
-b.grid(column=1, row=11, sticky=E)
+b.grid(column=2, row=12)
 
 def regenerateGroups():
     # send list of leftover people to be re-shuffled and list of saved people
@@ -216,7 +223,7 @@ def regenerateGroups():
 
 # regenerate groups button
 b2 = ttk.Button(mainframe, text="Regenerate Groups", command=regenerateGroups)
-b2.grid(column=4, row=11, sticky=E)
+b2.grid(column=3, row=12)
 
 def exportGroups():
     # export csv file of groups
@@ -226,7 +233,7 @@ def exportGroups():
 
 # export button
 b3 = ttk.Button(mainframe, text="Export Groups", command=exportGroups)
-b3.grid(column=2, row=13, sticky=S)
+b3.grid(column=4, row=12)
 
 def browseFiles():
         global filename
@@ -239,7 +246,7 @@ pathlabel = Label(root)
 
 # export button
 b4 = ttk.Button(mainframe, text="Browse", command=browseFiles)
-b4.grid(column=5, row=15, sticky=S)
+b4.grid(column=1, row=12)
 
 # mainframe.configure(background='blue')
 
