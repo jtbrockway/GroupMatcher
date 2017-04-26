@@ -190,7 +190,8 @@ def createGroups():
     algo.setGroupSize(gs)
     algo.setReadFile(filename)
     algo.createStudents()
-    algo.driver()
+    algo.create()
+    #algo.driver()
     displayList()
     
     print (weightedAttributes)
