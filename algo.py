@@ -40,7 +40,7 @@ def output():
     global student_arr
     outputToFile.write_csv(final_groups, student_arr)
 
-def tracker(groups):
+def tracker(groups, numStus):
     global final_groups
     global leftovers
     global theygone
@@ -48,13 +48,13 @@ def tracker(groups):
     while(flagger):
         flagger2 = False
         retarray = []
-        for i in range(stunum):
+        for i in range(numStus):
             retarray.append(0)
         for group in groups:
             for person in group:
                 retarray[person] += 1
                 flagger2 = False
-        for i in range (stunum):
+        for i in range (numStus):
             if retarray[i] == 0:
                 if (i in leftovers) or (i in theygone):
                     continue
@@ -81,7 +81,7 @@ def tracker(groups):
         flagger = flagger2
     return groups
 
-def time(posgroup):
+def time(posgroup, students, numStus):
     counter = 0
     newposgroups = []
     print(posgroup)
@@ -89,10 +89,10 @@ def time(posgroup):
         greedy = group[0]
         daymatch = []
         for i in range(5):
-            for time in student_arr[greedy][4+i]:
+            for time in students[greedy][4+i]:
                 flaggertime = True
                 for j in range(groupsize):
-                    if time in student_arr[group[j]][4+i]:
+                    if time in students[group[j]][4+i]:
                         continue
                     else:
                         flaggertime = False
@@ -108,15 +108,13 @@ def time(posgroup):
         if (flagger):
             counter += 1
             newposgroups.append(group)
-        '''else:
-            for person in group:
-                deletedgroups[person].append(group)'''
     print ('time', counter)
-    newpostgroups = tracker(newposgroups)
-    global pos_groups
-    pos_groups = newposgroups
+    newposgroups = tracker(newposgroups, numStus)
+    #global pos_groups
+    #pos_groups = newposgroups
+    return newposgroups
     
-def intention(groups):
+def intention(groups, students, numStus):
     print(groups)
     newposgroups = []
     counter = 0
@@ -125,28 +123,29 @@ def intention(groups):
         flagger2 = True #true if everyone is wanting an A or a major resume item
         for student in group:
             print ("STUDENT", student)
-            if student_arr[student][2] > 1:
+            if students[student][2] > 1:
                 flagger1 = False
-            if student_arr[student][2] < 1:
+            if students[student][2] < 1:
                 flagger2 = False
         if(flagger1 or flagger2):
             counter = counter + 1
             newposgroups.append(group)
-    newposgroups = tracker(newposgroups)
-    global pos_groups
-    pos_groups = newposgroups
+    newposgroups = tracker(newposgroups, numStus)
+    #global pos_groups
+    #pos_groups = newposgroups
+    return newposgroups
     print('intention counter ', counter)
         
-def language(groups):
+def language(groups, students, numStus):
     counter = 0
-    global pos_groups
+    #global pos_groups
     newposgroups = []
     counter = 0
     for group in groups:
         flagger = True
-        for lang in student_arr[group[0]][3]:
+        for lang in students[group[0]][3]:
             for student in group:
-                if lang in student_arr[student][3]:
+                if lang in students[student][3]:
                     continue
                 else:
                     flagger = False
@@ -154,20 +153,21 @@ def language(groups):
                 newposgroups.append(group)
                 counter += 1
                 break
-    newposgroups = tracker(newposgroups)
+    newposgroups = tracker(newposgroups, numStus)
     print('language', counter)
-    pos_groups = newposgroups
+    #pos_groups = newposgroups
+    return newposgroups
     
-def create():
-    driver()
+def create(numStu):
+    driver(numStu)
     
 
-def driver():
+def driver(numStudents):
     global pos_groups
-    global stunum
-    print("Stunum", stunum)
+    #global stunum
+    print("Stunum", numStudents)
     templist = []
-    for i in range(stunum):
+    for i in range(numStudents):
         templist.append(i)
     els = [list(x) for x in combinations(templist, groupsize)]
     pos_groups.append(els)
@@ -176,11 +176,11 @@ def driver():
     while(len(priorities) > 0):
         charnew = priorities.pop(0)
         if charnew == 'T':
-            time(pos_groups)
+            pos_groups = time(pos_groups, student_arr, numStudents)
         if charnew == 'I':
-            intention(pos_groups)
+            pos_groups = intention(pos_groups, student_arr, numStudents)
         if charnew == 'K':
-            language(pos_groups)
+            pos_groups = language(pos_groups, student_arr, numStudents)
         global leftovers
         print('leftovers', leftovers)
         #print(pos_groups)
@@ -251,5 +251,3 @@ def driver():
     print(final_groups)
 
     #base cases multiple group possiblities after all paramters filtered
-def displayFinal():
-    displayList

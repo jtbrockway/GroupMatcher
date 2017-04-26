@@ -140,8 +140,8 @@ tv.grid(column=4, row=4)
 # set the column heading text
 tv.heading('#0', text='Groups')
 buttonholder = []
-def displayList():
-        groupnum = int(algo.stunum // algo.groupsize)
+def displayList(numStus):
+        groupnum = int(numStus // algo.groupsize)
         for i in range(groupnum):
             button = tv.insert('', i, text = 'Group ' + str(i+1), open = True)
             grouptemp = algo.final_groups[i]
@@ -190,10 +190,10 @@ def createGroups():
     algo.setGroupSize(gs)
     algo.setReadFile(filename)
     algo.createStudents()
-    algo.setStuNum(cs)
-    algo.create()
+    #algo.setStuNum(cs)
+    algo.create(cs)
     #algo.driver()
-    displayList()
+    displayList(cs)
     
     print (weightedAttributes)
 
