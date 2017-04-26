@@ -211,17 +211,25 @@ def regenerateGroups():
 
     # get ordered list of re-weighted attributes
     reweightedAttributes = weightAttributes()
+    algo.setPrio(reweightedAttributes)
 
     # get new inputted group size
     gs = int(groupSize.get())
+    keepgrouplist = []
     for child in tv.get_children():
             print(tv.item(child))
     for i in range(gs):
             if selected[buttonholder[i]] == True:
                     print ('True')
+                    print('List', algo.final_groups[i])
+                    keepgrouplist.append(algo.final_groups[i])
             else:
                     print('False')
+
+    
     print(gs)
+    print(keepgrouplist)
+    algo.regen(keepgrouplist)
 
 # regenerate groups button
 b2 = ttk.Button(mainframe, text="Regenerate Groups", command=regenerateGroups)

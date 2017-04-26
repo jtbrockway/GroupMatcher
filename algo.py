@@ -122,7 +122,7 @@ def intention(groups, students, numStus):
         flagger1 = True #true if everyone is just wanting to pass or get an A
         flagger2 = True #true if everyone is wanting an A or a major resume item
         for student in group:
-            print ("STUDENT", student)
+            #print ("STUDENT", student)
             if students[student][2] > 1:
                 flagger1 = False
             if students[student][2] < 1:
@@ -159,10 +159,43 @@ def language(groups, students, numStus):
     return newposgroups
     
 def create(numStu):
-    driver(numStu)
+    global student_arr
+    driver(numStu, student_arr)
+
+def regen(keepgrouplist):
+    global final_groups
+    tempfin = []
+    global student_arr
+    newarr = []
+    counter = 0
+    for group in final_groups:
+        if group in keepgrouplist:
+            tempfin.append(group)
+        else:
+            for person in group:
+                counter += 1
+                tempbin = student_arr[person]
+                newarr.append(tempbin)
+    print('keeping groups', tempfin)
+    print(newarr)
+    final_groups = []
+    driver(counter, newarr)
+    for group in final_groups:
+        newgroup = []
+        for person in group:
+            for i in range(len(student_arr)):
+                if student_arr[i][0] == newarr[person][0]:
+                    if student_arr[i][1] == newarr[person][1]:
+                        newgroup.append(i)
+        tempfin.append(newgroup)
+    final_groups = tempfin
+    print('actual groups', final_groups)
+
+
+                
     
 
-def driver(numStudents):
+def driver(numStudents, stuarray):
     global pos_groups
     #global stunum
     print("Stunum", numStudents)
@@ -199,15 +232,15 @@ def driver(numStudents):
         final_groups.append(nextgroup)
     while (len(pos_groups) > 0):
         checkar = []
-        for i in range(stunum):
+        for i in range(numStudents):
             checkar.append(0)
         for grp in pos_groups:
             for aperson in grp:
-                checkar[aperson] =+ 1
+                checkar[aperson] += 1
         minnum = 100
         minperson = -1
         careabout = []
-        for i in range(stunum):
+        for i in range(numStudents):
             if checkar[i] > 0:
                 careabout.append(i)
                 if checkar[i] < minnum:
@@ -230,7 +263,7 @@ def driver(numStudents):
                 break
         checkar = []
         print('theygone', theygone)
-        for i in range(stunum):
+        for i in range(numStudents):
             checkar.append(0)
         for grp in pos_groups:
             for aperson in grp:
@@ -248,6 +281,6 @@ def driver(numStudents):
             nextgroup.append(leftovers.pop())
         final_groups.append(nextgroup)
             
-    print(final_groups)
+    print( final_groups)
 
     #base cases multiple group possiblities after all paramters filtered
