@@ -90,8 +90,14 @@ def time(posgroup):
         daymatch = []
         for i in range(5):
             for time in student_arr[greedy][4+i]:
-                if time in student_arr[group[1]][4+i]:
-                    if time in student_arr[group[2]][4+i]:
+                flaggertime = True
+                for j in range(groupsize):
+                    if time in student_arr[group[j]][4+i]:
+                        continue
+                    else:
+                        flaggertime = False
+                if flaggertime == True:
+                    if i not in daymatch:
                         daymatch.append(i)
         flagger = False
         if len(daymatch) > 1:
@@ -115,12 +121,17 @@ def intention(groups):
     newposgroups = []
     counter = 0
     for group in groups:
-        if (abs(student_arr[group[0]][2] - student_arr[group[1]][2]) < 2 and abs(student_arr[group[0]][2] - student_arr[group[2]][2]) < 2 and abs(student_arr[group[1]][2] - student_arr[group[2]][2]) < 2):
+        flagger1 = True #true if everyone is just wanting to pass or get an A
+        flagger2 = True #true if everyone is wanting an A or a major resume item
+        for student in group:
+            print ("STUDENT", student)
+            if student_arr[student][2] > 1:
+                flagger1 = False
+            if student_arr[student][2] < 1:
+                flagger2 = False
+        if(flagger1 or flagger2):
             counter = counter + 1
             newposgroups.append(group)
-        '''else:
-            for person in group:
-                deletedgroups[person].append(group)'''
     newposgroups = tracker(newposgroups)
     global pos_groups
     pos_groups = newposgroups
@@ -130,16 +141,19 @@ def language(groups):
     counter = 0
     global pos_groups
     newposgroups = []
+    counter = 0
     for group in groups:
         flagger = True
         for lang in student_arr[group[0]][3]:
-            if lang in student_arr[group[1]][3]:
-                if lang in student_arr[group[2]][3]:
+            for student in group:
+                if lang in student_arr[student][3]:
+                    continue
+                else:
                     flagger = False
-                    newposgroups.append(group)
-                    counter += 1
-                    break
-
+            if(flagger):
+                newposgroups.append(group)
+                counter += 1
+                break
     newposgroups = tracker(newposgroups)
     print('language', counter)
     pos_groups = newposgroups
