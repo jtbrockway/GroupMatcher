@@ -8,8 +8,8 @@ groupnums = []
 final_groups = []
 leftovers = []
 theygone = []
-groupsize = 3
-stunum = 9
+groupsize = 0
+stunum = 0
 priorities = []
 filename = ""
 student_arr = []
@@ -139,9 +139,7 @@ def language(groups):
                     newposgroups.append(group)
                     counter += 1
                     break
-        '''if(flagger):
-            for person in group:
-                deletedgroups[person].append(group)'''
+
     newposgroups = tracker(newposgroups)
     print('language', counter)
     pos_groups = newposgroups
@@ -152,6 +150,8 @@ def create():
 
 def driver():
     global pos_groups
+    global stunum
+    print("Stunum", stunum)
     templist = []
     for i in range(stunum):
         templist.append(i)

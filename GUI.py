@@ -139,9 +139,9 @@ tv.grid(column=4, row=4)
 
 # set the column heading text
 tv.heading('#0', text='Groups')
-groupnum = int(algo.stunum // algo.groupsize)
 buttonholder = []
 def displayList():
+        groupnum = int(algo.stunum // algo.groupsize)
         for i in range(groupnum):
             button = tv.insert('', i, text = 'Group ' + str(i+1), open = True)
             grouptemp = algo.final_groups[i]
@@ -190,6 +190,7 @@ def createGroups():
     algo.setGroupSize(gs)
     algo.setReadFile(filename)
     algo.createStudents()
+    algo.setStuNum(cs)
     algo.create()
     #algo.driver()
     displayList()
