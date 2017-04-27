@@ -142,6 +142,11 @@ def displayList(numStus):
         global counter
         global groupnum
         tv.delete(*tv.get_children())
+
+        buttonholder.clear()
+        titles.clear()
+        selected.clear()
+
         if(counter == 0):
             groupnum = int(numStus // algo.groupsize)
             counter += 1
