@@ -2,8 +2,6 @@ from inputFile import *
 from itertools import combinations
 import outputToFile
 
-
-#groupnums = [] 
 final_groups = []  #List of the final groups 
 student_arr = []   #Students obtained from input file
 pos_groups = []    #All possible groups of size n
