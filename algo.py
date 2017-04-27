@@ -58,6 +58,7 @@ def tracker(groups, numStus):
     while(flagger):
         flagger2 = False
         retarray = []
+        deletegroups = []
         for i in range(numStus):
             retarray.append(0)
         for group in groups:
@@ -69,13 +70,13 @@ def tracker(groups, numStus):
                 if (i in leftovers) or (i in theygone):
                     continue
                 else:
-                    print("Adding student", i, "to leftovers")
+                    #print("Adding student", i, "to leftovers in tracker")
                     leftovers.append(i)
             if retarray[i] == 1:
-                deletegroups = []
                 for group in groups:
                     if i in group:
-                        final_groups.append(group)
+                        if group not in final_groups:
+                            final_groups.append(group)
                         for person in group:
                         	theygone.append(person)
                         for other in group:
@@ -84,8 +85,9 @@ def tracker(groups, numStus):
                                     flagger2 = True
                                     if others not in deletegroups:
                                         deletegroups.append(others)
-                for thing in deletegroups:
-                    groups.remove(thing)
+        for thing in deletegroups:
+            groups.remove(thing)
+                    
         flagger = flagger2
     return groups
 
@@ -205,10 +207,13 @@ def driver(numStudents, stuarray):
         charnew = priorities.pop(0)
         if charnew == 'T':
             pos_groups = time(pos_groups, student_arr, numStudents)
+            print('finalgroups after time', final_groups)
         if charnew == 'I':
             pos_groups = intention(pos_groups, student_arr, numStudents)
+            print('finalgroups after intent', final_groups)
         if charnew == 'K':
             pos_groups = language(pos_groups, student_arr, numStudents)
+            print('finalgroups after lang', final_groups)
     global leftovers
     while(len(leftovers) > groupsize - 1):
         nextgroup = []
@@ -231,18 +236,36 @@ def driver(numStudents, stuarray):
                 if checkar[i] < minnum:
                     minnum = checkar[i]
                     minperson = i
+        print(minperson)
         theygone = []
+        #print(pos_groups)
+        print('pos gorups rn', pos_groups)
+        flagger3 = True
         for group in pos_groups:
+            print('YOU ARE HERE')
+            print('group', group)
             if minperson in group:
-                pos_groups.remove(group)
-                final_groups.append(group)
-                for other in group:
-                    theygone.append(other)
-                for person in group:
-                    for othergroup in pos_groups:
-                        if person in othergroup:
-                            pos_groups.remove(othergroup)
-                break
+                print('MIN PERSON IS IN THIS GROUP')
+                toremove = []
+                if flagger3 == True: 
+                    flagger3 = False
+                    if group not in toremove:
+                        toremove.append(group)
+                    print('removing group', group)
+                    final_groups.append(group)
+                    for person in group:     #not grabbing everyone
+                        theygone.append(person)
+                        for othergroup in pos_groups:
+                            print('LOOOKING AT ', othergroup, 'with person' , person)
+                            if person in othergroup:
+                                print('hi')
+                                print("Remove", toremove)
+                                if othergroup not in toremove:
+                                    print('removing the group', othergroup)
+                                    toremove.append(othergroup)
+                for removeit in toremove:
+                    pos_groups.remove(removeit)
+                #break
         checkar = []
         for i in range(numStudents):
             checkar.append(0)
