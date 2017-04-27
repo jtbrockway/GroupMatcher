@@ -2,18 +2,23 @@ from inputFile import *
 from itertools import combinations
 import outputToFile
 
-student_arr = []
-pos_groups = []
-groupnums = []
-final_groups = []
-leftovers = []
-theygone = []
-groupsize = 0
-stunum = 0
-priorities = []
-filename = ""
-student_arr = []
 
+#groupnums = [] 
+final_groups = []  #List of the final groups 
+student_arr = []   #Students obtained from input file
+pos_groups = []    #All possible groups of size n
+leftovers = []     #People who were removed from all of their possible groups
+theygone = []      #Holds people who were removed from groups
+groupsize = 0      #Size of Groups
+stunum = 0         #Class size
+priorities = []    #List of filter priorty - Obtained from GUI
+filename = ""      #File to read input from
+
+'''
+Setter functions
+    These functions set global variables.
+    Used so that input from GUI can be used in running the algorithm
+'''
 def setPrio(prioList):
     global priorities
     priorities = prioList
@@ -39,7 +44,14 @@ def output():
     global final_groups
     global student_arr
     outputToFile.write_csv(final_groups, student_arr)
+'''
+End of Setter functions
+'''
 
+'''
+Tracker Function
+    
+'''
 def tracker(groups, numStus):
     global final_groups
     global leftovers
@@ -176,7 +188,6 @@ def regen(keepgrouplist):
                         newgroup.append(i)
         tempfin.append(newgroup)
     final_groups = tempfin
-    print(final_groups)
     return counter
 
 
