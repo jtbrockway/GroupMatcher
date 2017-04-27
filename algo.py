@@ -33,10 +33,7 @@ def setReadFile(file):
 def createStudents():
     global student_arr
     global filename
-    #CHANGE THIS BEFORE SUBMISSION!!!!!!!!!!!!!!!!!!!!!
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    student_arr = read_csv("response.csv")
+    student_arr = read_csv(filename)
 
 def output():
     global final_groups
@@ -191,9 +188,9 @@ def driver(numStudents, stuarray):
     templist = []
     for i in range(numStudents):
         templist.append(i)
-    els = [list(x) for x in combinations(templist, groupsize)]
-    pos_groups.append(els)
-    pos_groups = pos_groups[0]
+    pos_groups = [list(x) for x in combinations(templist, groupsize)]
+    #pos_groups.append(els)
+    #pos_groups = pos_groups[0]
     while(len(priorities) > 0):
         charnew = priorities.pop(0)
         if charnew == 'T':
