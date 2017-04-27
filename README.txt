@@ -107,7 +107,30 @@
 		-Select which priority you would like that filter to have
 		-Priority 1 means that the selected filter runs first
 		-Priority 3 means the selected filter runs last
-	
+
+---------------------------------------
+	GUI: How to add to it
+---------------------------------------
+
+	To add a button:
+		- Use ttk.Button(mainframe, text="Button Name", command=commandYouWantToHookUp))
+		- Create a function to call when your button is clicked
+
+	To add a text box:
+		- Use ttk.Entry(mainframe, text="Text", textvariable=variableToHookItUpTo)
+
+	To add a label:
+		- Use ttk.Label(mainframe, text="Text for label")
+
+	To add a spinbox:
+		- Use Spinbox(mainframe, textvariable=variableToHookItUpTo, from_=lowesgtValue, to=highestValue, increment=valueToIncrementBy)
+
+	To add a treeview:
+		- Use ttk.Treeview(mainframe, selectmode='extended', height=whatEverHeightYouWant)
+		- treeview.heading('#0', text='Name of treeview')
+
+	To layout widgets in the grid (all of the above are widgets):
+		- widgetName.grid(column=int, row=int)
 
 Program outputs to a csv file named "Groups.csv"
 
