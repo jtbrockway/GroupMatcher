@@ -202,13 +202,9 @@ def createGroups():
     algo.create(cs)
     #algo.driver()
     displayList(cs)
-    
-    print (weightedAttributes)
 
     # get inputted group size
-    
-    print(gs)
-    print(cs)
+
 
 # create groups button
 b = ttk.Button(mainframe, text="Create Groups", command=createGroups)
@@ -224,19 +220,10 @@ def regenerateGroups():
     # get new inputted group size
     gs = int(groupSize.get())
     keepgrouplist = []
-    for child in tv.get_children():
-            print(tv.item(child))
     for i in range(gs):
             if selected[buttonholder[i]] == True:
-                    print ('True')
-                    print('List', algo.final_groups[i])
                     keepgrouplist.append(algo.final_groups[i])
-            else:
-                    print('False')
 
-    
-    print(gs)
-    print(keepgrouplist)
     cs = algo.regen(keepgrouplist)
     displayList(cs)
 
@@ -246,7 +233,6 @@ b2.grid(column=3, row=14, sticky=S)
 
 def exportGroups():
     # export csv file of groups
-    print ("export groups!")
     algo.output()
     root.destroy()
 
@@ -258,7 +244,7 @@ def browseFiles():
         global filename
         filename = filedialog.askopenfilename()
         pathlabel.config(text=filename)
-        print(filename)
+
     
 
 pathlabel = Label(root)

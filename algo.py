@@ -69,6 +69,7 @@ def tracker(groups, numStus):
                 if (i in leftovers) or (i in theygone):
                     continue
                 else:
+                    print("Adding student", i, "to leftovers")
                     leftovers.append(i)
             if retarray[i] == 1:
                 deletegroups = []
@@ -252,6 +253,7 @@ def driver(numStudents, stuarray):
             if checkar[num] == 0:
                 if num not in theygone:
                     leftovers.append(num)
+                    print("Adding student", i, "to leftovers")
     while(len(leftovers) > groupsize - 1):
         nextgroup = []
         for i in range (groupsize):
