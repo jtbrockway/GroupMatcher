@@ -11,13 +11,13 @@ titles = {}
 selected = {}
 
 # set up framework
-mainframe = ttk.Frame(root, padding="30 30 120 120")
+mainframe = ttk.Frame(root, padding="30 30 80 80")
 mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
 mainframe.columnconfigure(0, weight=1)
 mainframe.rowconfigure(0, weight=1)
 
 # labels for weighting attributes
-ttk.Label(mainframe, text="Rank your attributes").grid(column=1, row=1, sticky=W)
+ttk.Label(mainframe, text="Rank your attributes").grid(column=1, row=1, sticky=E)
 ttk.Label(mainframe, text="").grid(column=1, row=2, sticky=W)
 ttk.Label(mainframe, text="Intention of Project").grid(column=1, row=3, sticky=W)
 ttk.Label(mainframe, text="").grid(column=1, row=4, sticky=W)
@@ -32,14 +32,17 @@ groupSize = StringVar(root)
 # spinbox to choose group size
 ttk.Label(mainframe, text="Enter group size").grid(column=1, row=9, sticky=W)
 ttk.Label(mainframe, text="").grid(column=1, row=10, sticky=W)
-Spinbox(mainframe, textvariable=groupSize, from_=2, to=6, increment=1, width=6).grid(column=2, row=9)
+Spinbox(mainframe, textvariable=groupSize, from_=2, to=6, increment=1, width=6, ).grid(column=2, row=9)
 
 # set up class size
 classSize = StringVar(root)
 
 # text field to enter class size
 ttk.Label(mainframe, text="Enter class size").grid(column=1, row=11, sticky=W)
-ttk.Entry(mainframe, text='', textvariable=classSize).grid(column=2, row=11, sticky=W)
+ttk.Entry(mainframe, text='', textvariable=classSize, width=8).grid(column=2, row=11)
+ttk.Label(mainframe, text="").grid(column=2, row=12, sticky=W)
+ttk.Label(mainframe, text="").grid(column=3, row=12, sticky=W)
+ttk.Label(mainframe, text="").grid(column=4, row=12, sticky=W)
 
 # set up for weight options
 w1 = IntVar(root)
@@ -126,16 +129,9 @@ def weightAttributes():
 
     return weightedAttributes
 
-#initialize checkbuttons to un-checked
-cb1 = IntVar(0)
-cb2 = IntVar(0)
-cb3 = IntVar(0)
-cb4 = IntVar(0)
-cb5 = IntVar(0)
-
 # make a tree view and put it in the grid
-tv = ttk.Treeview(mainframe, selectmode='extended')
-tv.grid(column=4, row=4)
+tv = ttk.Treeview(mainframe, selectmode='extended', height=17)
+tv.grid(column=4, row=2, rowspan=10)
 
 # set the column heading text
 tv.heading('#0', text='Groups')
@@ -204,7 +200,7 @@ def createGroups():
 
 # create groups button
 b = ttk.Button(mainframe, text="Create Groups", command=createGroups)
-b.grid(column=2, row=12)
+b.grid(column=3, row=13, sticky=S)
 
 def regenerateGroups():
     # send list of leftover people to be re-shuffled and list of saved people
@@ -233,7 +229,7 @@ def regenerateGroups():
 
 # regenerate groups button
 b2 = ttk.Button(mainframe, text="Regenerate Groups", command=regenerateGroups)
-b2.grid(column=3, row=12)
+b2.grid(column=3, row=14, sticky=S)
 
 def exportGroups():
     # export csv file of groups
@@ -243,7 +239,7 @@ def exportGroups():
 
 # export button
 b3 = ttk.Button(mainframe, text="Export Groups", command=exportGroups)
-b3.grid(column=4, row=12)
+b3.grid(column=4, row=13, sticky=W)
 
 def browseFiles():
         global filename
@@ -255,8 +251,8 @@ def browseFiles():
 pathlabel = Label(root)
 
 # export button
-b4 = ttk.Button(mainframe, text="Browse", command=browseFiles)
-b4.grid(column=1, row=12)
+b4 = ttk.Button(mainframe, text="Browse Files", command=browseFiles)
+b4.grid(column=2, row=13, sticky=E)
 
 # mainframe.configure(background='blue')
 
