@@ -70,7 +70,7 @@ def tracker(groups, numStus):
                 if (i in leftovers) or (i in theygone):
                     continue
                 else:
-                    #print("Adding student", i, "to leftovers in tracker")
+                    print("Adding student", i, "to leftovers in tracker")
                     leftovers.append(i)
             if retarray[i] == 1:
                 for group in groups:
@@ -236,32 +236,22 @@ def driver(numStudents, stuarray):
                 if checkar[i] < minnum:
                     minnum = checkar[i]
                     minperson = i
-        print(minperson)
         theygone = []
         #print(pos_groups)
-        print('pos gorups rn', pos_groups)
         flagger3 = True
         for group in pos_groups:
-            print('YOU ARE HERE')
-            print('group', group)
             if minperson in group:
-                print('MIN PERSON IS IN THIS GROUP')
                 toremove = []
                 if flagger3 == True: 
                     flagger3 = False
                     if group not in toremove:
                         toremove.append(group)
-                    print('removing group', group)
                     final_groups.append(group)
                     for person in group:     #not grabbing everyone
                         theygone.append(person)
                         for othergroup in pos_groups:
-                            print('LOOOKING AT ', othergroup, 'with person' , person)
                             if person in othergroup:
-                                print('hi')
-                                print("Remove", toremove)
                                 if othergroup not in toremove:
-                                    print('removing the group', othergroup)
                                     toremove.append(othergroup)
                 for removeit in toremove:
                     pos_groups.remove(removeit)
