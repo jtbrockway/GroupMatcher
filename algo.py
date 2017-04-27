@@ -33,6 +33,9 @@ def setReadFile(file):
 def createStudents():
     global student_arr
     global filename
+    #CHANGE THIS BEFORE SUBMISSION!!!!!!!!!!!!!!!!!!!!!
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     student_arr = read_csv("response.csv")
 
 def output():
@@ -59,7 +62,6 @@ def tracker(groups, numStus):
                 if (i in leftovers) or (i in theygone):
                     continue
                 else:
-                    print('appending to leftovers: ', i)
                     leftovers.append(i)
             if retarray[i] == 1:
                 deletegroups = []
@@ -68,12 +70,10 @@ def tracker(groups, numStus):
                         final_groups.append(group)
                         for person in group:
                         	theygone.append(person)
-                        print('added to final groups', group)
                         for other in group:
                             for others in groups:
                                 if other in others:
                                     flagger2 = True
-                                    print('found one', others)
                                     if others not in deletegroups:
                                         deletegroups.append(others)
                 for thing in deletegroups:
@@ -84,7 +84,6 @@ def tracker(groups, numStus):
 def time(posgroup, students, numStus):
     counter = 0
     newposgroups = []
-    print(posgroup)
     for group in posgroup:
         greedy = group[0]
         daymatch = []
@@ -108,21 +107,17 @@ def time(posgroup, students, numStus):
         if (flagger):
             counter += 1
             newposgroups.append(group)
-    print ('time', counter)
     newposgroups = tracker(newposgroups, numStus)
-    #global pos_groups
-    #pos_groups = newposgroups
     return newposgroups
     
 def intention(groups, students, numStus):
-    print(groups)
     newposgroups = []
     counter = 0
     for group in groups:
         flagger1 = True #true if everyone is just wanting to pass or get an A
         flagger2 = True #true if everyone is wanting an A or a major resume item
         for student in group:
-            #print ("STUDENT", student)
+
             if students[student][2] > 1:
                 flagger1 = False
             if students[student][2] < 1:
@@ -131,14 +126,11 @@ def intention(groups, students, numStus):
             counter = counter + 1
             newposgroups.append(group)
     newposgroups = tracker(newposgroups, numStus)
-    #global pos_groups
-    #pos_groups = newposgroups
+
     return newposgroups
-    print('intention counter ', counter)
         
 def language(groups, students, numStus):
     counter = 0
-    #global pos_groups
     newposgroups = []
     counter = 0
     for group in groups:
@@ -154,8 +146,6 @@ def language(groups, students, numStus):
                 counter += 1
                 break
     newposgroups = tracker(newposgroups, numStus)
-    print('language', counter)
-    #pos_groups = newposgroups
     return newposgroups
     
 def create(numStu):
@@ -176,8 +166,6 @@ def regen(keepgrouplist):
                 counter += 1
                 tempbin = student_arr[person]
                 newarr.append(tempbin)
-    print('keeping groups', tempfin)
-    print(newarr)
     final_groups = []
     driver(counter, newarr)
     for group in final_groups:
@@ -189,7 +177,6 @@ def regen(keepgrouplist):
                         newgroup.append(i)
         tempfin.append(newgroup)
     final_groups = tempfin
-    print('actual groups', final_groups)
 
 
                 
@@ -197,14 +184,11 @@ def regen(keepgrouplist):
 
 def driver(numStudents, stuarray):
     global pos_groups
-    #global stunum
-    print("Stunum", numStudents)
     templist = []
     for i in range(numStudents):
         templist.append(i)
     els = [list(x) for x in combinations(templist, groupsize)]
     pos_groups.append(els)
-    print(pos_groups)
     pos_groups = pos_groups[0]
     while(len(priorities) > 0):
         charnew = priorities.pop(0)
@@ -215,16 +199,7 @@ def driver(numStudents, stuarray):
         if charnew == 'K':
             pos_groups = language(pos_groups, student_arr, numStudents)
         global leftovers
-        print('leftovers', leftovers)
-        #print(pos_groups)
-        #print("--------")
-        #print(final_groups)
-        print("----------")
     
-    print(leftovers)
-    print(final_groups)
-    print("||||||||||||||||||")
-    print(pos_groups)
     while(len(leftovers) > groupsize - 1):
         nextgroup = []
         for i in range (groupsize):
@@ -246,11 +221,9 @@ def driver(numStudents, stuarray):
                 if checkar[i] < minnum:
                     minnum = checkar[i]
                     minperson = i
-        print('minperson', minperson)
         theygone = []
         for group in pos_groups:
             if minperson in group:
-                print('removing their group: ', group)
                 pos_groups.remove(group)
                 final_groups.append(group)
                 for other in group:
@@ -258,29 +231,22 @@ def driver(numStudents, stuarray):
                 for person in group:
                     for othergroup in pos_groups:
                         if person in othergroup:
-                            print('clearingout the other group', othergroup)
                             pos_groups.remove(othergroup)
                 break
         checkar = []
-        print('theygone', theygone)
         for i in range(numStudents):
             checkar.append(0)
         for grp in pos_groups:
             for aperson in grp:
                 checkar[aperson] += 1
-        print('careabout', careabout)
-        print(checkar[8])
         for num in careabout:
             if checkar[num] == 0:
                 if num not in theygone:
                     leftovers.append(num)
-                    print('adding ', num, 'to leftovers')
     while(len(leftovers) > groupsize - 1):
         nextgroup = []
         for i in range (groupsize):
             nextgroup.append(leftovers.pop())
         final_groups.append(nextgroup)
-            
-    print( final_groups)
 
     #base cases multiple group possiblities after all paramters filtered
