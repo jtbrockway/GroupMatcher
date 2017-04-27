@@ -153,6 +153,8 @@ def create(numStu):
     driver(numStu, student_arr)
 
 def regen(keepgrouplist):
+    global theygone
+    theygone = []
     global final_groups
     tempfin = []
     global student_arr
@@ -177,6 +179,8 @@ def regen(keepgrouplist):
                         newgroup.append(i)
         tempfin.append(newgroup)
     final_groups = tempfin
+    print(final_groups)
+    return counter
 
 
                 
@@ -198,8 +202,7 @@ def driver(numStudents, stuarray):
             pos_groups = intention(pos_groups, student_arr, numStudents)
         if charnew == 'K':
             pos_groups = language(pos_groups, student_arr, numStudents)
-        global leftovers
-    
+    global leftovers
     while(len(leftovers) > groupsize - 1):
         nextgroup = []
         for i in range (groupsize):

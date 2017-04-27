@@ -9,6 +9,8 @@ root = Tk()
 root.title("Group Matcher")
 titles = {}
 selected = {}
+counter = 0
+groupnum = 0
 
 # set up framework
 mainframe = ttk.Frame(root, padding="30 30 80 80")
@@ -137,7 +139,12 @@ tv.grid(column=4, row=2, rowspan=10)
 tv.heading('#0', text='Groups')
 buttonholder = []
 def displayList(numStus):
-        groupnum = int(numStus // algo.groupsize)
+        global counter
+        global groupnum
+        tv.delete(*tv.get_children())
+        if(counter == 0):
+            groupnum = int(numStus // algo.groupsize)
+            counter += 1
         for i in range(groupnum):
             button = tv.insert('', i, text = 'Group ' + str(i+1), open = True)
             grouptemp = algo.final_groups[i]
@@ -225,7 +232,8 @@ def regenerateGroups():
     
     print(gs)
     print(keepgrouplist)
-    algo.regen(keepgrouplist)
+    cs = algo.regen(keepgrouplist)
+    displayList(cs)
 
 # regenerate groups button
 b2 = ttk.Button(mainframe, text="Regenerate Groups", command=regenerateGroups)
