@@ -11,12 +11,12 @@ Group Members:
 	-Some users may need to install ActiveTcl 8.6
 		-Link to ActiveTcl 8.6: https://www.activestate.com/activetcl/downloads
 	-The survey used to obtain the csv input for this program is at:
-		https://docs.google.com/forms/d/19ffTN3xbHsEepRt_AJltbJFMf-ycbING9uv_HM9Gt6c/edit
+		https://docs.google.com/forms/d/19ffTN3xbHsEepRt_AJltbJFMf-ycbING9uv_HM9Gt6c/edit?usp=sharing
 	Please Note:
 		-Included in the GroupMatcher git repository is a file named "responses.csv"
 			This file can be used as test input to see the functionality of this program.
 		-responses.csv has 30 entries
-			-When entereing class size, please use 30 if using responses.csv
+			-When entering class size, please use 30 if using responses.csv
 ---------------------------------------
 	How to Run GroupMatcher
 	    On MacOS/Linux
@@ -192,3 +192,11 @@ Group Members:
 	-After pressing the "Export Groups" button, the GroupMatcher GUI will close
 	-The final groups output will be in a csv file named "Groups" which will be located in the same folder as GroupMatcher.py
 
+---------------------------------------
+	Effictiveness of Algorithm
+---------------------------------------
+	When running GroupMatcher using 'responses.csv', with a class size 30 and a group size of 3,
+		any ranking of priorities for filters results in 8/10 groups in which
+			-All members can meet a tleast twice a week, each meeting being at least 2 days apart.
+			-All members share at least 1 common language
+			-All members share a similar intention for the project
