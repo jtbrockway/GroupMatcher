@@ -1,11 +1,22 @@
+Group Name: Munder Difflin Paperless Co.
+Group Members:
+	-Jack Brockway
+	-Kristen Splonskowski
+	-Elizabeth Olson
+
 ---------------------------------------
    Requirements to Run GroupMatcher
 ---------------------------------------
 	-Must have Python3.6 installed on computer that is running GroupMatcher program
 	-Some users may need to install ActiveTcl 8.6
 		-Link to ActiveTcl 8.6: https://www.activestate.com/activetcl/downloads
-
-
+	-The survey used to obtain the csv input for this program is at:
+		https://docs.google.com/forms/d/19ffTN3xbHsEepRt_AJltbJFMf-ycbING9uv_HM9Gt6c/edit
+	Please Note:
+		-Included in the GroupMatcher git repository is a file named "responses.csv"
+			This file can be used as test input to see the functionality of this program.
+		-responses.csv has 30 entries
+			-When entereing class size, please use 30 if using responses.csv
 ---------------------------------------
 	How to Run GroupMatcher
 	    On MacOS/Linux
@@ -37,6 +48,7 @@
 	1). Rank your filters priorities
 	2). Set your Group size
 	3). Enter your Class size
+		(Please Note: Class Size needs to be evenly divisible by Group Size)
 	4). Press "Browse Files" and select the csv file that will be used for input
 	5). Press "Create Groups" button to run the GroupMatcher algorithm
  	(Optional: If you would like to run certain groups through the algorithm again)
@@ -108,9 +120,49 @@
 		-Priority 1 means that the selected filter runs first
 		-Priority 3 means the selected filter runs last
 
+	To change Group Size:
+		-Highlight number in text box next to "Enter group size"
+		-Enter the number for how large you want groups to be
+			OR
+		-Use the Up arrow or down arrow in the text box next to "Enter group size" until you've reached the desired group size
+
+	To enter class size:
+		-Left click on text box next to "Enter class size"
+		-Enter the number indicating the size of your class into the text box
+			(Note: This number should be the same as the number of students in the csv input file)
+
+--------------------------------------
+	Algorithm: How to add to it
+--------------------------------------
+	To add another filter:
+		-Define a function inside algo.py for your filter that takes in
+			-Possible groups array
+			-Students array
+			-Number of students
+		-Assign a single character tag for your filter
+		-In the first while loop in algo.py's driver function add:
+			if charnew == 'yourChar':
+            			pos_groups = yourFilter(pos_groups, student_arr, numStudent)
+		-In GroupMatcher.py:
+			Add the code:
+				wn = IntVar(root)
+				oldWn = IntVar(root)
+				wn.set(n)
+				oldWn.set(n)
+				(Where n is the number of the filter you are adding
+					(ie: if just adding one filter, you would do w4=IntVar(root), etc...))
+				Add n to the choices array
+				Create a changeWeightn function identical to changeWeight1 except where n is the n from wn
+				Add: OptionMenu(mainframe, wn, *choices, command=changeWeight3).grid(column=2, row=(3+2n))
+				Add the necessary if statements in the weightAttributes function
+					(These should be similar to the 3 sets of if statements already in weight attributes
+						(ie: if wn.get() == 1: weightedAttributes.append("yourChar")))
+		
+	Use the intention function in algo.py as template with which to design your filter
 ---------------------------------------
 	GUI: How to add to it
 ---------------------------------------
+	Open GroupMatcher.py
 
 	To add a button:
 		- Use ttk.Button(mainframe, text="Button Name", command=commandYouWantToHookUp))
@@ -132,6 +184,11 @@
 	To layout widgets in the grid (all of the above are widgets):
 		- widgetName.grid(column=int, row=int)
 
-Program outputs to a csv file named "Groups.csv"
+---------------------------------------
+	How GroupMatcher Outputs
+---------------------------------------
+	-After running "Create Groups" or "Regenerate Groups", the GroupMatcher GUI will display the groups it created in the "Groups" section of the GUI
+	-Once you see the groups in the "Groups" section, you can press the "Export Groups" button
+	-After pressing the "Export Groups" button, the GroupMatcher GUI will close
+	-The final groups output will be in a csv file named "Groups" which will be located in the same folder as GroupMatcher.py
 
-Number of students and groupsize need to be divisible
