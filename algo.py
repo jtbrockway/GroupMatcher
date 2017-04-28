@@ -48,7 +48,9 @@ End of Setter functions
 
 '''
 Tracker Function
-    
+If a person has only one group remaining, makes sure that group will be saved
+Considers the others in that group and stops considering their other remaining groups 
+Tracks which people are not in any of the remaining groups
 '''
 def tracker(groups, numStus):
     global final_groups
@@ -90,6 +92,12 @@ def tracker(groups, numStus):
                     
         flagger = flagger2
     return groups
+    
+'''
+Filter Functions
+Filters through a set of possible groups and eliminates groups that do not meet its 
+pass fail criteria of group validity
+'''
 
 def time(posgroup, students, numStus):
     counter = 0
@@ -121,13 +129,16 @@ def time(posgroup, students, numStus):
     return newposgroups
     
 def intention(groups, students, numStus):
+    '''
+    Filters out groups if there is a person who wants this to be a major resume item with someone 
+    who just wants to pass
+    '''
     newposgroups = []
     counter = 0
     for group in groups:
         flagger1 = True #true if everyone is just wanting to pass or get an A
         flagger2 = True #true if everyone is wanting an A or a major resume item
         for student in group:
-
             if students[student][2] > 1:
                 flagger1 = False
             if students[student][2] < 1:
@@ -136,10 +147,12 @@ def intention(groups, students, numStus):
             counter = counter + 1
             newposgroups.append(group)
     newposgroups = tracker(newposgroups, numStus)
-
     return newposgroups
         
 def language(groups, students, numStus):
+    '''
+    Filters out groups if there is not one strong language in common
+    '''
     counter = 0
     newposgroups = []
     counter = 0
@@ -157,12 +170,23 @@ def language(groups, students, numStus):
                 break
     newposgroups = tracker(newposgroups, numStus)
     return newposgroups
-    
+
+'''
+Button Functions
+'''
+
 def create(numStu):
+    '''
+    Run when the create button is pressed
+    '''
     global student_arr
     driver(numStu, student_arr)
 
 def regen(keepgrouplist):
+    '''
+    Run when the regenerate button is pressed
+    Re-runs the algorithm with new priority list, but saves the groups selected by the user
+    '''
     global theygone
     theygone = []
     global final_groups
@@ -190,30 +214,28 @@ def regen(keepgrouplist):
         tempfin.append(newgroup)
     final_groups = tempfin
     return counter
-
-
                 
-    
+'''
+Group Division 
+'''    
 
 def driver(numStudents, stuarray):
+    '''
+    Creates all possible groups. Runs groups through filters in the order of user's priority
+    '''
     global pos_groups
     templist = []
     for i in range(numStudents):
         templist.append(i)
     pos_groups = [list(x) for x in combinations(templist, groupsize)]
-    #pos_groups.append(els)
-    #pos_groups = pos_groups[0]
     while(len(priorities) > 0):
         charnew = priorities.pop(0)
         if charnew == 'T':
             pos_groups = time(pos_groups, student_arr, numStudents)
-            print('finalgroups after time', final_groups)
         if charnew == 'I':
             pos_groups = intention(pos_groups, student_arr, numStudents)
-            print('finalgroups after intent', final_groups)
         if charnew == 'K':
             pos_groups = language(pos_groups, student_arr, numStudents)
-            print('finalgroups after lang', final_groups)
     global leftovers
     while(len(leftovers) > groupsize - 1):
         nextgroup = []
@@ -237,7 +259,6 @@ def driver(numStudents, stuarray):
                     minnum = checkar[i]
                     minperson = i
         theygone = []
-        #print(pos_groups)
         flagger3 = True
         for group in pos_groups:
             if minperson in group:
@@ -247,7 +268,7 @@ def driver(numStudents, stuarray):
                     if group not in toremove:
                         toremove.append(group)
                     final_groups.append(group)
-                    for person in group:     #not grabbing everyone
+                    for person in group:    
                         theygone.append(person)
                         for othergroup in pos_groups:
                             if person in othergroup:
@@ -255,7 +276,6 @@ def driver(numStudents, stuarray):
                                     toremove.append(othergroup)
                 for removeit in toremove:
                     pos_groups.remove(removeit)
-                #break
         checkar = []
         for i in range(numStudents):
             checkar.append(0)
@@ -266,11 +286,8 @@ def driver(numStudents, stuarray):
             if checkar[num] == 0:
                 if num not in theygone:
                     leftovers.append(num)
-                    print("Adding student", i, "to leftovers")
     while(len(leftovers) > groupsize - 1):
         nextgroup = []
         for i in range (groupsize):
             nextgroup.append(leftovers.pop())
         final_groups.append(nextgroup)
-
-    #base cases multiple group possiblities after all paramters filtered
